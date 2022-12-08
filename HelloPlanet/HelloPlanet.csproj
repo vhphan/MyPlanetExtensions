@@ -1,0 +1,119 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <TargetFramework>net472</TargetFramework>
+    <FileUpgradeFlags />
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <AssemblyTitle>NeighborListsApiSample</AssemblyTitle>
+    <Company>InfoVista S.A.</Company>
+    <Product>Planet</Product>
+    <Copyright>Copyright © 2019 InfoVista S.A.</Copyright>
+    <Deterministic>false</Deterministic>
+    <Version>7.4.0</Version>
+    <AssemblyVersion>7.4.0.1</AssemblyVersion>
+    <FileVersion>7.4.0.1</FileVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Configurations>Debug;Release;test</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='test|AnyCPU'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <PropertyGroup>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonUtilities, Version=5.4.0.30103, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\References\CommonUtilities.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Marconi.Wnp.Era.Core">
+      <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\Marconi.Wnp.Era.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Marconi.Wnp.Era.RFServices">
+      <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\Marconi.Wnp.Era.RFServices.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetOpenApi, Version=5.2.0.27134, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\References\PlanetOpenApi.dll</HintPath>
+      <Private>false</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="PlanetOpenApi.Data, Version=1.0.0.30104, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\References\PlanetOpenApi.Data.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="PlanetOpenApi.MapInfoLoader">
+      <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\PlanetOpenApi.MapInfoLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetOpenApi.RFServices, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\References\PlanetOpenApi.RFServices.dll</HintPath>
+      <Private>false</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="PlanetOpenApi.RFTools">
+      <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\PlanetOpenApi.RFTools.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetOpenApi.RFTools.ACP">
+      <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\PlanetOpenApi.RFTools.ACP.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetOpenApi.RFTools.ACP.Data">
+      <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\PlanetOpenApi.RFTools.ACP.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetOpenApi.RFTools.NeighborLists">
+      <HintPath>..\References\PlanetOpenApi.RFTools.NeighborLists.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetOpenApi.RFTools.SSOT">
+      <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\PlanetOpenApi.RFTools.SSOT.dll</HintPath>
+    </Reference>
+    <Reference Include="PlanetOpenApi.TrafficMap">
+      <HintPath>..\References\PlanetOpenApi.TrafficMap.dll</HintPath>
+    </Reference>
+    <Reference Include="RFServices.Analysis">
+      <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\RFServices.Analysis.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="extension.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="HelloPlanetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CustomComponents" />
+  </ItemGroup>
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="IF NOT EXIST $(ProjectName) mkdir $(ProjectName)" />
+    <Exec Command="call &quot;$(SolutionDir)CopyReferences.bat&quot; &quot;$(ProjectPath)&quot; &quot;$(SolutionDir)&quot; CommonUtilities.dll PlanetOpenApi.dll PlanetOpenApi.RFServices.dll PlanetOpenApi.RFTools.NeighborLists.dll PlanetOpenApi.TrafficMap.dll" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="xcopy &quot;$(TargetPath)&quot; $(ProjectName) /y" />
+	  <Exec Command="xcopy &quot;$(SolutionDir)$(ProjectName)\extension.xml&quot; $(ProjectName) /y" />
+	  <Exec Command="&quot;$(ProjectDir)..\7-Zip\7z.exe&quot; a &quot;$(ProjectDir)..\Pex\$(ProjectName).pex&quot; $(ProjectName) -tzip" />
+	  <Exec Command="call &quot;$(ProjectDir)replace.bat&quot;" />
+  </Target>
+</Project>

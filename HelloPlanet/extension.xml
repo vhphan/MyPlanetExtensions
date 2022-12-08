@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+
+<Extension Version="1.0">
+
+  <Name>Hello</Name>
+
+  <Description>HELLO</Description>
+
+  <Author>Phan</Author>
+
+  <Submenu Menu="Tools">Hello1</Submenu>
+
+  <Plugin Type="DLL" Menu="Hello2" IsLarge="false">
+    <Toolfilename Path="RELATIVE">HelloPlanet.dll</Toolfilename>
+    <Icofilename Path="RELATIVE"></Icofilename>
+    <Name>HELLO</Name>
+    <Tooltip></Tooltip>
+    <Param>HelloPlanet.EntryPoint/EnterSesame</Param>
+  </Plugin>
+
+</Extension>

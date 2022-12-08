@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloPlanet", "HelloPlanet\HelloPlanet.csproj", "{3ECD4B49-B900-4887-AF08-318ACA2B5C5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		test|Any CPU = test|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3ECD4B49-B900-4887-AF08-318ACA2B5C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ECD4B49-B900-4887-AF08-318ACA2B5C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ECD4B49-B900-4887-AF08-318ACA2B5C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ECD4B49-B900-4887-AF08-318ACA2B5C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ECD4B49-B900-4887-AF08-318ACA2B5C5E}.test|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ECD4B49-B900-4887-AF08-318ACA2B5C5E}.test|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AE6A5F46-0C59-4D10-A79B-465C9814BEA7}
+	EndGlobalSection
+EndGlobal
