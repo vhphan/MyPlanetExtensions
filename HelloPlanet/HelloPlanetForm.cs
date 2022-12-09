@@ -17,6 +17,8 @@ namespace HelloPlanet
             InitializeComponent();
         }
 
+        readonly RunnerOfSorts _runner = new RunnerOfSorts();
+
         private void button1_Click(object sender, System.EventArgs e)
         {
             textBox1.Text = "Hello, Planet! Code 3488";
@@ -36,8 +38,13 @@ namespace HelloPlanet
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            RunnerOfSorts runner = new RunnerOfSorts();
-            runner.RunSomething(this);
+            
+            _runner.RunSomething(this);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _runner.RunSomeMapinfoStuff(this);
         }
     }
 }

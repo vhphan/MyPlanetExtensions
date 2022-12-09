@@ -48,11 +48,23 @@
       <HintPath>..\References\CommonUtilities.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="MapInfo.Events">
+      <HintPath>..\..\..\..\..\..\Program Files\InfoVista\Planet 7.7\mapinfo\Professional\MapInfo.Events.dll</HintPath>
+    </Reference>
+    <Reference Include="MapInfo.Types">
+      <HintPath>..\..\..\..\..\..\Program Files\InfoVista\Planet 7.7\mapinfo\Professional\MapInfo.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Marconi.Wnp.Era.Core">
       <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\Marconi.Wnp.Era.Core.dll</HintPath>
     </Reference>
     <Reference Include="Marconi.Wnp.Era.RFServices">
       <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\Marconi.Wnp.Era.RFServices.dll</HintPath>
+    </Reference>
+    <Reference Include="miadm">
+      <HintPath>..\..\..\..\..\..\Program Files\InfoVista\Planet 7.7\mapinfo\Professional\miadm.dll</HintPath>
+    </Reference>
+    <Reference Include="mibase">
+      <HintPath>..\..\..\..\..\..\Program Files\InfoVista\Planet 7.7\mapinfo\Professional\mibase.dll</HintPath>
     </Reference>
     <Reference Include="PlanetOpenApi, Version=5.2.0.27134, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\References\PlanetOpenApi.dll</HintPath>
@@ -94,6 +106,7 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="extension.xml" />
