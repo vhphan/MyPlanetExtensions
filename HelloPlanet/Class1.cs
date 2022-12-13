@@ -8,8 +8,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MapInfo.Data;
+using MapInfo.Engine;
 using MapInfo.MiPro.Interop;
 using MapInfo.Types;
+using MapInfo.Types.Data;
 using Marconi.Wnp.RFServices.Analysis;
 using PlanetOpenApi.Analysis;
 using PlanetOpenApi.Common.ProgressReporting;
@@ -17,6 +20,7 @@ using PlanetOpenApi.Data.Selection;
 using PlanetOpenApi.Services;
 using PlanetOpenApi.MapInfoLoader;
 using PlanetOpenApi.Network;
+using PlanetOpenApi.DataManager;
 
 namespace HelloPlanet
 {
@@ -93,10 +97,10 @@ namespace HelloPlanet
             // Send mapbasic commands
             // InteropServices.MapInfoApplication.Do("set window 3004 hide");
             // MapBasicService.MapBasicDo("set window 3004 show");
-            
+
             // Close the project
             // ProjectController.Close();
-            
+
             // Export Network Data
             // Dictionary<String, ICollection<String>> tblInfo = new Dictionary<String, ICollection<String>>();
             // tblInfo.Add("Sites", new List<String> { "Site ID", "Longitude", "Latitude" });
@@ -104,10 +108,51 @@ namespace HelloPlanet
             // exportNetworkDataTask.ProgressChanged += generationTask_ProgressChanged;
             // exportNetworkDataTask.WorkCompleted += generationTask_WorkCompleted;
             // exportNetworkDataTask.RunAsync(null);
-            
+
             // Run Python Script from within Mapinfo Application
-            MapBasicService.MapBasicDo("run application \"C:\\Users\\vhphan\\source\\repos\\HelloPlanet\\HelloPlanet\\HelloPy.py\"");
+            MapBasicService.MapBasicDo(
+                "run application \"C:\\Users\\vhphan\\source\\repos\\HelloPlanet\\HelloPlanet\\HelloPy.py\"");
+
+            // Get current project path
+            String projectFilePath = PlanetOpenApi.MapInfoLoader.ProjectFolders.ProjectPath;
+            sender.updateTextBox2(projectFilePath);
+
+            // Query sites
+            var catalog = Session.Current.Catalog;
+            if (catalog.Count > 0)
+            {
+                ITableEnumerator tEnum = catalog.EnumerateTables();
+                tEnum.MoveNext();
+                var alias = tEnum.Current.Alias;
+                sender.updateTextBox2($"Table alias: {alias}");
+            }
             
+            string query = @"Select * From SiteFile Where SiteName=""LTE_700MHz_17"" and Type=""Sector"" Into CheckSite";
+            Debug.WriteLine(query);
+
+            MIConnection connection = new MIConnection();
+            MICommand command = null;
+
+            try
+            {
+                connection.Open();
+                command = connection.CreateCommand();
+                command.CommandText = query;
+                var count = (int)command.ExecuteScalar();
+                command.Dispose();
+                connection.Close();
+                sender.updateTextBox2($"MISQL table record count: {count}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"error: {ex.Message}");
+            }
+            finally
+            {
+                command?.Dispose();
+                connection.Close();
+            }
+
         }
     }
 }

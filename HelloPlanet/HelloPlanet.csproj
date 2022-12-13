@@ -48,6 +48,9 @@
       <HintPath>..\References\CommonUtilities.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="MapInfo.DataAccess">
+      <HintPath>..\..\..\..\..\..\Program Files\InfoVista\Planet 7.7\mapinfo\Professional\MapInfo.DataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="MapInfo.Events">
       <HintPath>..\..\..\..\..\..\Program Files\InfoVista\Planet 7.7\mapinfo\Professional\MapInfo.Events.dll</HintPath>
     </Reference>
