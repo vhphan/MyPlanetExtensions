@@ -22,7 +22,7 @@
     <AssemblyTitle>NeighborListsApiSample</AssemblyTitle>
     <Company>InfoVista S.A.</Company>
     <Product>Planet</Product>
-    <Copyright>Copyright © 2019 InfoVista S.A.</Copyright>
+    <Copyright>Copyright © Ericsson Malaysia</Copyright>
     <Deterministic>false</Deterministic>
     <Version>7.4.0</Version>
     <AssemblyVersion>7.4.0.1</AssemblyVersion>
@@ -107,6 +107,7 @@
     <Reference Include="RFServices.Analysis">
       <HintPath>..\..\..\..\Documents\InfoVista\Planet Open API 7.7.1\References\RFServices.Analysis.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="WindowsBase" />
@@ -118,9 +119,17 @@
     <Compile Update="HelloPlanetForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CustomComponents" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+    <PackageReference Include="Microsoft.Office.Excel" Version="14.0.4760.1000" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
   </ItemGroup>
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="IF NOT EXIST $(ProjectName) mkdir $(ProjectName)" />

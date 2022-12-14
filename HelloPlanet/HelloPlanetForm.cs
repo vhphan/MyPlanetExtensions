@@ -46,5 +46,19 @@ namespace HelloPlanet
         {
             _runner.RunSomeMapinfoStuff(this);
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            _runner.RunAnotherStuff(this);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form settingsForm = new SettingsForm();
+            settingsForm.Show();
+            updateTextBox2(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+        }
+
+
     }
 }

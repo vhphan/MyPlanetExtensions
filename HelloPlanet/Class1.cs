@@ -1,26 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using MapInfo.Data;
-using MapInfo.Engine;
-using MapInfo.MiPro.Interop;
-using MapInfo.Types;
-using MapInfo.Types.Data;
 using Marconi.Wnp.RFServices.Analysis;
 using PlanetOpenApi.Analysis;
 using PlanetOpenApi.Common.ProgressReporting;
 using PlanetOpenApi.Data.Selection;
-using PlanetOpenApi.Services;
 using PlanetOpenApi.MapInfoLoader;
-using PlanetOpenApi.Network;
-using PlanetOpenApi.DataManager;
+using PlanetOpenApi.Services;
 
 namespace HelloPlanet
 {
@@ -75,9 +64,22 @@ namespace HelloPlanet
                 new SiteSectorId("LTE_700MHz_1", "2"),
                 new SiteSectorId("LTE_700MHz_1", "3"),
             };
+            Debug.WriteLine("sectors: " + sectors.Count);
             try
             {
                 ServiceBase.AnalysisService.SetSectors(AnalysisType.LTEFDD, analysisName, sectors);
+                var sectors2 = ServiceBase.AnalysisService.GetSectors(AnalysisType.LTEFDD, analysisName);
+
+
+                Debug.WriteLine("Sectors: " + sectors2.Count());
+                foreach (var sector in sectors2)
+                {
+                    Debug.WriteLine(sector.SiteId);
+                    Debug.WriteLine(sector.SectorId);
+                    sender.updateTextBox2(sector.SiteId);
+                    sender.updateTextBox2(sector.SectorId);
+                }
+                
             }
             catch (Exception e)
             {
@@ -114,19 +116,10 @@ namespace HelloPlanet
                 "run application \"C:\\Users\\vhphan\\source\\repos\\HelloPlanet\\HelloPlanet\\HelloPy.py\"");
 
             // Get current project path
-            String projectFilePath = PlanetOpenApi.MapInfoLoader.ProjectFolders.ProjectPath;
+            String projectFilePath = ProjectFolders.ProjectPath;
             sender.updateTextBox2(projectFilePath);
 
             // Query sites
-            var catalog = Session.Current.Catalog;
-            if (catalog.Count > 0)
-            {
-                ITableEnumerator tEnum = catalog.EnumerateTables();
-                tEnum.MoveNext();
-                var alias = tEnum.Current.Alias;
-                sender.updateTextBox2($"Table alias: {alias}");
-            }
-            
             string query = @"Select * From SiteFile Where SiteName=""LTE_700MHz_17"" and Type=""Sector"" Into CheckSite";
             Debug.WriteLine(query);
 
@@ -145,14 +138,37 @@ namespace HelloPlanet
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"error: {ex.Message}");
+                // MessageBox.Show($"error: {ex.Message}");
+                sender.updateTextBox2($"error: {ex.Message}");
             }
             finally
             {
                 command?.Dispose();
                 connection.Close();
             }
+            sender.updateTextBox2("Finished running...");
+            
+        }
 
+        public void RunAnotherStuff(HelloPlanetForm sender)
+        {
+            // C:\Users\vhphan\Documents\15 Site Data_20211030.xlsx
+            string excelPath = System.Configuration.ConfigurationManager.AppSettings["SiteListExcelPath"];
+            var result = Utils.Parse(excelPath);
+            sender.updateTextBox2(result.ToString());
+            //object value = DataSetObj.Tables["Table_Name"].Rows[rowIndex]["column_name"]
+            foreach(DataRow row in result.Tables[0].Rows)
+            {
+                foreach (DataColumn column in result.Tables[0].Columns)
+                {
+                    Debug.WriteLine("====================================");
+                    Debug.WriteLine("Column: " + column.ColumnName + " Value: " + row[column]);
+                    Debug.WriteLine("====================================");
+                }
+            }
+            
+            string[] sites = result.Tables[0].AsEnumerable().Select(r => r.Field<string>("Site_ID")).ToArray();
+            
         }
     }
 }
