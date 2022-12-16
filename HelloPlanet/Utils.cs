@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using MapInfo.Types;
 using Excel = Microsoft.Office.Interop.Excel;
-
+using MapInfo.MiPro;
+using MapInfo.MiPro.Interop;
 
 namespace HelloPlanet
 {
@@ -18,9 +21,9 @@ namespace HelloPlanet
             Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(filePath);
             Excel.Worksheet xlWorksheet = (Excel.Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
-            
+
             CleanUp(xlApp);
-            
+
             return xlRange;
         }
 
@@ -34,7 +37,7 @@ namespace HelloPlanet
             xlApp.Quit();
             Marshal.ReleaseComObject(xlApp);
         }
-        
+
         public static DataSet Parse(string fileName)
         {
             string connectionString =
@@ -42,10 +45,10 @@ namespace HelloPlanet
 
             var data = new DataSet();
 
-            foreach(var sheetName in GetExcelSheetNames(connectionString))
+            foreach (var sheetName in GetExcelSheetNames(connectionString))
             {
                 using (OleDbConnection con = new OleDbConnection(connectionString))
-                {    
+                {
                     var dataTable = new DataTable();
                     string query = $"SELECT * FROM [{sheetName}]";
                     con.Open();
@@ -62,7 +65,7 @@ namespace HelloPlanet
         {
             OleDbConnection con = null;
             DataTable dt = null;
-            con= new OleDbConnection(connectionString);
+            con = new OleDbConnection(connectionString);
             con.Open();
             dt = con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
 
@@ -82,8 +85,35 @@ namespace HelloPlanet
 
             return excelSheetNames;
         }
-        
 
-        
+        public static void MakeConfigFile()
+        {
+            //C:\Users\vhphan\AppData\Local\InfoVista\Planet\7.7\Planet Extensions\HelloPlanet
+            string appDataPath =
+                Environment.GetFolderPath(Environment.SpecialFolder
+                    .LocalApplicationData); // // C:\Users\vhphan\AppData\Local
+            string appFolder = Path.Combine(appDataPath, "InfoVista", "Planet", "7.7", "Planet Extensions",
+                "HelloPlanet"); // C:\Users\vhphan\AppData\Local\InfoVista\Planet\7.7\Planet Extensions\HelloPlanet
+            if (!Directory.Exists(appFolder))
+            {
+                Directory.CreateDirectory(appFolder);
+            }
+
+            // Create the config.txt file in appFolder if it doesn't exist
+            var configPath = Path.Combine(appFolder, "config.txt");
+            if (!File.Exists(configPath))
+            {
+                var configFile =  File.Create(configPath);
+                configFile.Close();
+            }
+            
+
+            // Check Planet version
+            Debug.WriteLine(System.Configuration.ConfigurationManager.AppSettings["PlanetVersion"]);
+            Debug.WriteLine(configPath);
+            Debug.WriteLine(Application
+                .LocalUserAppDataPath); //  "C:\\Users\\vhphan\\AppData\\Local\\Precisely\\MapInfo Pro\\21.0.1.0025"
+            Globals.configFilePath = configPath;
+        }
     }
 }

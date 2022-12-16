@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -10,6 +9,14 @@ using PlanetOpenApi.Services;
 
 namespace HelloPlanet
 {
+    static class Globals
+    {
+        public static string configFilePath;
+        public static string excelToDoFile;
+
+        
+    }
+
     public partial class HelloPlanetForm : Form
     {
         public HelloPlanetForm()
@@ -32,13 +39,14 @@ namespace HelloPlanet
                 textBox1.Text += name + Environment.NewLine;
             }
         }
+
         public void updateTextBox2(string text)
         {
             textBox2.Text += text + Environment.NewLine;
         }
+
         private void button2_Click(object sender, EventArgs e)
         {
-            
             _runner.RunSomething(this);
         }
 
@@ -60,5 +68,15 @@ namespace HelloPlanet
         }
 
 
+        private void button6_Click(object sender, EventArgs e)
+        {
+            updateTextBox2(Globals.configFilePath);
+            updateTextBox2(Globals.excelToDoFile);
+        }
+
+        private void HelloPlanetForm_Load(object sender, EventArgs e)
+        {
+            Utils.MakeConfigFile();
+        }
     }
 }
