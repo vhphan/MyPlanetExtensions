@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Diagnostics;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using Marconi.Wnp.Core;
 using Marconi.Wnp.RFServices.Analysis;
@@ -9,14 +10,6 @@ using PlanetOpenApi.Services;
 
 namespace HelloPlanet
 {
-    static class Globals
-    {
-        public static string configFilePath;
-        public static string excelToDoFile;
-
-        
-    }
-
     public partial class HelloPlanetForm : Form
     {
         public HelloPlanetForm()
@@ -70,8 +63,9 @@ namespace HelloPlanet
 
         private void button6_Click(object sender, EventArgs e)
         {
-            updateTextBox2(Globals.configFilePath);
-            updateTextBox2(Globals.excelToDoFile);
+            updateTextBox2(Settings.ConfigFilePath);
+            updateTextBox2(Settings.ConfigFilePathJson);
+            updateTextBox2(Settings.ExcelToDoFile);
         }
 
         private void HelloPlanetForm_Load(object sender, EventArgs e)

@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -10,6 +11,8 @@ using MapInfo.Types;
 using Excel = Microsoft.Office.Interop.Excel;
 using MapInfo.MiPro;
 using MapInfo.MiPro.Interop;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace HelloPlanet
 {
@@ -101,10 +104,16 @@ namespace HelloPlanet
 
             // Create the config.txt file in appFolder if it doesn't exist
             var configPath = Path.Combine(appFolder, "config.txt");
+            var configPathJson = Path.Combine(appFolder, "config.json");    
             if (!File.Exists(configPath))
             {
                 var configFile =  File.Create(configPath);
                 configFile.Close();
+            }
+            if (!File.Exists(configPathJson))
+            {
+                var configFileJson =  File.Create(configPathJson);
+                configFileJson.Close();
             }
             
 
@@ -113,7 +122,43 @@ namespace HelloPlanet
             Debug.WriteLine(configPath);
             Debug.WriteLine(Application
                 .LocalUserAppDataPath); //  "C:\\Users\\vhphan\\AppData\\Local\\Precisely\\MapInfo Pro\\21.0.1.0025"
-            Globals.configFilePath = configPath;
+            Settings.ConfigFilePath = configPath;
+            Settings.ConfigFilePathJson = configPathJson;
+            
+            // Create folder for storing exported files for Excel
+            var excelFolder = Path.Combine(appFolder, "ExcelExport");
+            if (!Directory.Exists(excelFolder))
+            {
+                Directory.CreateDirectory(excelFolder);
+            }
+            Settings.ExcelExportFolder = excelFolder;
+            
+            // Create folder for storing exported files for Planet
+            var planetFolder = Path.Combine(appFolder, "PlanetExport");
+            if (!Directory.Exists(planetFolder))
+            {
+                Directory.CreateDirectory(planetFolder);
+            }
+            Settings.PlanetExportFolder = planetFolder;
+            
+            
+            
+        }
+        public static JObject MapStaticClassToJson(Type staticClassToMap)
+        {
+            var result = new JObject();
+            var properties = staticClassToMap.GetProperties(BindingFlags.Public | BindingFlags.Static);
+            foreach (PropertyInfo prop in properties)
+            {
+                result.Add(new JProperty(prop.Name, prop.GetValue(null, null)));
+            }
+    
+            return result;
+        }
+
+        public static string ObjToJSON(object Obj)
+        {
+            return JsonConvert.SerializeObject(Obj, Formatting.Indented);
         }
     }
 }
