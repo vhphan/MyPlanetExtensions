@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -10,11 +12,11 @@ namespace HelloPlanet
 {
     public partial class SettingsForm : Form
     {
-        
+        private Settings _settings;
+
         public SettingsForm()
         {
             InitializeComponent();
-            textBox1.Text = Settings.ExcelToDoFile;
         }
 
         private void selectFileButton_Click(object sender, EventArgs e)
@@ -35,11 +37,11 @@ namespace HelloPlanet
                 ReadOnlyChecked = true,
                 ShowReadOnly = true
             };
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)  
-            {  
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
                 textBox1.Text = openFileDialog1.FileName;
-                Settings.ExcelToDoFile = openFileDialog1.FileName;
-            }  
+                _settings.ExcelToDoFile = openFileDialog1.FileName;
+            }
         }
 
         private void SettingsForm_Load(object sender, EventArgs e)
@@ -49,18 +51,24 @@ namespace HelloPlanet
 
         private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            File.WriteAllText(Settings.ConfigFilePathJson, Utils.ObjToJSON(new Settings()));
+            if (_settings == null) return;
+            File.WriteAllText(textBox1.Text, Utils.ObjToJSON(_settings));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             // Load config.json file
-            Settings settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Settings.ConfigFilePathJson));
-            
+            _settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(textBox1.Text));
+
             // Load values to form  
-            textBox2.Text = Settings.ExcelToDoFile;
-            textBox3.Text = Settings.ExcelExportFolder;
-            
+            if (_settings == null) return;
+            textBox2.Text = _settings.ExcelToDoFile;
+            textBox3.Text = _settings.ExcelExportFolder;
+            textBox4.Text = _settings.PlanetExportFolder;
+            textBox5.Text = _settings.ExcelTemplateFolder;
+            textBox6.Text = _settings.BestServerPath;
+            textBox7.Text = _settings.WestMalaysiaProjectTemplate;
+            textBox8.Text = _settings.EastMalaysiaProjectTemplate;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -82,14 +90,19 @@ namespace HelloPlanet
                 ReadOnlyChecked = true,
                 ShowReadOnly = true
             };
-            
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)  
-            {  
-                Settings.ConfigFilePathJson = openFileDialog1.FileName;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
                 textBox1.Text = openFileDialog1.FileName;
             }
         }
 
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            PlanetTasks planetTasks = new PlanetTasks(_settings);
+            planetTasks.ParseExcelFile();
+            planetTasks.ProcessSites();
+        }
     }
 }

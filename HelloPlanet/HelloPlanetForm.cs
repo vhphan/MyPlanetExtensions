@@ -63,14 +63,10 @@ namespace HelloPlanet
 
         private void button6_Click(object sender, EventArgs e)
         {
-            updateTextBox2(Settings.ConfigFilePath);
-            updateTextBox2(Settings.ConfigFilePathJson);
-            updateTextBox2(Settings.ExcelToDoFile);
         }
 
         private void HelloPlanetForm_Load(object sender, EventArgs e)
         {
-            Utils.MakeConfigFile();
         }
     }
 }

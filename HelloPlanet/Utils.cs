@@ -122,8 +122,6 @@ namespace HelloPlanet
             Debug.WriteLine(configPath);
             Debug.WriteLine(Application
                 .LocalUserAppDataPath); //  "C:\\Users\\vhphan\\AppData\\Local\\Precisely\\MapInfo Pro\\21.0.1.0025"
-            Settings.ConfigFilePath = configPath;
-            Settings.ConfigFilePathJson = configPathJson;
             
             // Create folder for storing exported files for Excel
             var excelFolder = Path.Combine(appFolder, "ExcelExport");
@@ -131,7 +129,6 @@ namespace HelloPlanet
             {
                 Directory.CreateDirectory(excelFolder);
             }
-            Settings.ExcelExportFolder = excelFolder;
             
             // Create folder for storing exported files for Planet
             var planetFolder = Path.Combine(appFolder, "PlanetExport");
@@ -139,7 +136,6 @@ namespace HelloPlanet
             {
                 Directory.CreateDirectory(planetFolder);
             }
-            Settings.PlanetExportFolder = planetFolder;
             
             
             
